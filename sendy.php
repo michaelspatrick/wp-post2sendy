@@ -77,6 +77,10 @@ function post_to_sendy($id, $post, $update, $post_before) {
     $trackClicks = $post2sendy_options['track_clicks_12']; // Track Clicks
     $emailStatus = $post2sendy_options['default_email_status_13']; // Default Email Status
 
+    // prevent WP hook triggering more than once and posting to Sendy multiple times
+    if ( defined( 'POST_SENDY_ONCE' ) ) return;
+    define( 'POST_SENDY_ONCE', true );
+	
     if(($serverURL == null) || ($apiKey == null) || ($brandID == null) || 
        ($listID == null) || ($fromName == null) || ($fromEmail == null) ||
        ($replyTo == null) || ($campaignTitle == null) || ($templateURL == null) ||
