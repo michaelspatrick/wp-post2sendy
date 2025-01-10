@@ -83,7 +83,14 @@ function post_to_sendy($id, $post, $update, $post_before) {
        ($emailSubject == null) || ($emailContent == null)) { 
       return;
     }
-    
+
+    $doing_autosave = ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE );
+    if ( $doing_autosave || wp_is_post_revision( $post_id ) ||
+        wp_doing_cron() || wp_doing_ajax()
+    ) {
+        return;
+    }
+	
     // Check that post is not a custom post type.
     if ($post->post_type != "post") return;
 
